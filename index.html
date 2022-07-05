@@ -19,17 +19,32 @@
       ReactDOM.render(<App />, root);
     }
     function App() {
-      const data = React.useState(0);
-      let [counter, setCounter] = data;
-      const onClick = () => {
-        // 함수방식으로 할 때 현재값과 수정값이 무엇인지 정확하게 리액트에 전달가능
-        // 버그 확률 감소
-        setCounter((current) => current + 1);
+      const [minutes, setMinutes] = React.useState(0);
+      const onChange = (event) => {
+        setMinutes((minutes) => event.target.value);
       };
+      const reset = () => setMinutes(0);
       return (
         <div>
-          <h3>Total clicks: {counter}</h3>
-          <button onClick={onClick}>Click me!</button>
+          <h1 className="hi">Super Converter</h1>
+          <label htmlFor="minutes">Minutes</label>
+          <input
+            value={minutes}
+            id="minutes"
+            placeholder="Minutes"
+            type="number"
+            onChange={onChange}
+          />
+          <div></div>
+          <label htmlFor="hours">Hours</label>
+          <input
+            value={minutes / 60}
+            id="hours"
+            placeholder="Hours"
+            type="number"
+            disabled
+          />
+          <button onClick={reset}>Reset</button>
         </div>
       );
     }
