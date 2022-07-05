@@ -19,32 +19,38 @@
       ReactDOM.render(<App />, root);
     }
     function App() {
-      const [minutes, setMinutes] = React.useState(0);
+      const [amount, setAmount] = React.useState(0);
+      const [flipped, setFlipped] = React.useState(false);
       const onChange = (event) => {
-        setMinutes((minutes) => event.target.value);
+        setAmount(event.target.value);
       };
-      const reset = () => setMinutes(0);
+      const reset = () => setAmount(0);
+      // const onFlip = () => setFlipped(!flipped); 현재값을 기준으로 상태를 변환할 때는 함수형이 안전
+      const onFlip = () => setFlipped((current) => !current);
       return (
         <div>
           <h1 className="hi">Super Converter</h1>
           <label htmlFor="minutes">Minutes</label>
           <input
-            value={minutes}
+            value={flipped ? amount * 60 : amount}
             id="minutes"
             placeholder="Minutes"
             type="number"
             onChange={onChange}
+            disabled={flipped}
           />
           <div></div>
           <label htmlFor="hours">Hours</label>
           <input
-            value={minutes / 60}
+            value={flipped ? amount : Math.round(amount / 60)}
             id="hours"
             placeholder="Hours"
             type="number"
-            disabled
+            disabled={!flipped}
+            onChange={onChange}
           />
           <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>Flip</button>
         </div>
       );
     }
