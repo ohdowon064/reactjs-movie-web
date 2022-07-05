@@ -22,9 +22,10 @@
       const data = React.useState(0);
       let [counter, setCounter] = data;
       const onClick = () => {
-        setCounter(counter + 1);
+        // 함수방식으로 할 때 현재값과 수정값이 무엇인지 정확하게 리액트에 전달가능
+        // 버그 확률 감소
+        setCounter((current) => current + 1);
       };
-      console.log("rendered");
       return (
         <div>
           <h3>Total clicks: {counter}</h3>
