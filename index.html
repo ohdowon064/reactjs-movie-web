@@ -15,21 +15,50 @@
 
   <script type="text/babel">
     const root = document.getElementById("root");
-    function render() {
-      ReactDOM.render(<App />, root);
+    function KmToMiles() {
+      const [amount, setAmount] = React.useState(0);
+      const [k2mFlag, setK2mFlag] = React.useState(true);
+      const onChange = (event) => setAmount(event.target.value);
+      const reset = () => setAmount(0);
+      const onInverted = () => setK2mFlag((k2mFlag) => !k2mFlag);
+      return (
+        <div>
+          <h3>KM 2 M</h3>
+          <label htmlFor="km">Km</label>
+          <input
+            id="km"
+            placeholder="Km"
+            type="number"
+            value={k2mFlag ? amount : (amount * 1.609).toFixed(4)}
+            onChange={onChange}
+            disabled={!k2mFlag}
+          />
+          <div></div>
+          <label htmlFor="miles">Miles</label>
+          <input
+            id="miles"
+            placeholder="Miles"
+            type="number"
+            value={k2mFlag ? (amount / 1.609).toFixed(4) : amount}
+            onChange={onChange}
+            disabled={k2mFlag}
+          />
+          <div></div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onInverted}>Invert</button>
+        </div>
+      );
     }
-    function App() {
+    function MinutesToHours() {
       const [amount, setAmount] = React.useState(0);
       const [flipped, setFlipped] = React.useState(false);
       const onChange = (event) => {
         setAmount(event.target.value);
       };
       const reset = () => setAmount(0);
-      // const onFlip = () => setFlipped(!flipped); 현재값을 기준으로 상태를 변환할 때는 함수형이 안전
       const onFlip = () => setFlipped((current) => !current);
       return (
         <div>
-          <h1 className="hi">Super Converter</h1>
           <label htmlFor="minutes">Minutes</label>
           <input
             value={flipped ? amount * 60 : amount}
@@ -49,11 +78,30 @@
             disabled={!flipped}
             onChange={onChange}
           />
+          <br />
           <button onClick={reset}>Reset</button>
           <button onClick={onFlip}>Flip</button>
         </div>
       );
     }
-    render();
+    function App() {
+      const [index, setIndex] = React.useState("1");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <h1 className="hi">Super Converter</h1>
+          <select onChange={onSelect}>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Km & Miles</option>
+          </select>
+          <hr />
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    }
+    ReactDOM.render(<App />, root);
   </script>
 </html>
