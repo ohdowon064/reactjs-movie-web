@@ -16,16 +16,16 @@
   <script type="text/babel">
     const root = document.getElementById("root");
     // 컴포넌트 = JSX를 반환하는 함수
-    function Btn({text, big}) {
+    function Btn({text, changeValue}) {
       return (
         <button
+          onClick={changeValue}
           style={{
             backgroundColor: "tomato",
             color: "white",
             padding: "10px 20px",
             border: 0,
             borderRadius: 10,
-            fontSize: big ? 20: 10
           }}
         >
           {text}
@@ -34,10 +34,13 @@
     }
 
     function App() {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Revert Changes");
+
       return (
         <div>
-          <Btn text="Save Changes" big={true}/>
-          <Btn text="Continue" big={false}/>
+          <Btn text={value} changeValue={changeValue}f/>
+          <Btn text="Continue"/>
         </div>
       );
     }
